@@ -47,6 +47,7 @@ Step 1: Clone the Repository
 
 git clone <repository-url>
 cd <repository-directory>
+cd homework
 
 Step 2: Start the Server
 
