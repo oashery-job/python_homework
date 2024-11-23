@@ -7,6 +7,8 @@ import socket
 
 
 class Client:
+    MAX_RETRIES = 3  # Maximum number of attempts allowed
+
     @log_function
     def start(self):
         num1, num2, operation = self.get_user_input()
@@ -15,7 +17,8 @@ class Client:
 
     @log_function
     def get_user_input(self):
-        while True:
+        retries = 0
+        while retries < self.MAX_RETRIES:
             try:
                 print("\n Hello, please follow the instructions: \n")
                 num1 = int(input("Please enter the first number (Integer) ?"))
@@ -31,6 +34,10 @@ class Client:
             except Exception as e:
                 logger.error(e)
                 print(f"\nPlease try to enter a valid parameters. \n")
+            retries += 1
+        print("Maximum retries reached. Exiting.")
+        logger.error("User failed to provide valid inputs after maximum retries.")
+        exit(1)  # Exit the program gracefully
 
     @log_function
     def send_data_to_server(self, num1, num2, operation):
